@@ -16,6 +16,10 @@ const UserDetails = () => {
 				setRepos(await getRepos());
 				setFollowers(await getFollowers());
 			})();
+		} else {
+			setUserDetails({});
+			setRepos([]);
+			setFollowers([]);
 		}
 	}, [user]);
 
