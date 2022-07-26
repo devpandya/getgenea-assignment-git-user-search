@@ -8,6 +8,7 @@ const UserDetails = () => {
 	const [userDetails, setUserDetails] = React.useState({});
 	const [repos, setRepos] = React.useState([]);
 	const [followers, setFollowers] = React.useState([]);
+
 	useEffect(() => {
 		if (user?.login) {
 			(async () => {
@@ -21,6 +22,7 @@ const UserDetails = () => {
 			setRepos([]);
 			setFollowers([]);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user]);
 
 	const getRepos = async () => {
