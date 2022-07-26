@@ -6,7 +6,7 @@ import { getApi } from '../api';
 const GitSearch = () => {
 	const [users, setUsers] = React.useState([]);
 	const [value, setValue] = React.useState('');
-
+	const [loading, setLoading] = React.useState(false);
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.user);
 
@@ -21,11 +21,13 @@ const GitSearch = () => {
 	}, [value]);
 
 	const searchUsers = async (value) => {
+		setLoading(true);
 		dispatch({ type: 'setUser', payload: {} });
 		const data = await getApi(
 			`https://api.github.com/search/users?q=${value}&per_page=7`
 		);
 		setUsers(data?.items);
+		setLoading(false);
 	};
 
 	const setUser = (user) => {
@@ -45,16 +47,22 @@ const GitSearch = () => {
 					type='text'
 					placeholder='Search for a user...'
 				/>
-				{users?.length > 0 && (
+				{loading ? (
 					<div className={styles.options}>
-						{users?.map((user) => {
-							return (
-								<li key={user.login} onClick={() => setUser(user)}>
-									{user.login}
-								</li>
-							);
-						})}
+						<li>...Loading</li>
 					</div>
+				) : (
+					users?.length > 0 && (
+						<div className={styles.options}>
+							{users?.map((user) => {
+								return (
+									<li key={user.login} onClick={() => setUser(user)}>
+										{user.login}
+									</li>
+								);
+							})}
+						</div>
+					)
 				)}
 			</div>
 		</div>
